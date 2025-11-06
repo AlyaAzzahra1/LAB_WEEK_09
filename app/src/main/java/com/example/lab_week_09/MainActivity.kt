@@ -9,10 +9,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
+// import androidx.compose.material3.Button // Dihapus karena menggunakan PrimaryTextButton kustom
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+// import androidx.compose.material3.Text // Dihapus karena menggunakan OnBackgroundTitleText/ItemText kustom
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
@@ -28,6 +28,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.example.lab_week_09.ui.theme.LAB_WEEK_09Theme
+// Tambahkan import UI Elements kustom dari file Elements.kt
+import com.example.lab_week_09.ui.theme.OnBackgroundItemText
+import com.example.lab_week_09.ui.theme.OnBackgroundTitleText
+import com.example.lab_week_09.ui.theme.PrimaryTextButton
+
 
 //Previously we extend AppCompatActivity,
 //now we extend ComponentActivity
@@ -129,11 +134,11 @@ fun HomeContent(
                 //You can also use verticalArrangement = Arrangement.Center to align the Column vertically
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = stringResource(
-                        id = R.string.enter_item
-                    )
+                //Here, we call the OnBackgroundTitleText UI Element
+                OnBackgroundTitleText(text = stringResource(
+                    id = R.string.enter_item)
                 )
+
                 //Here, we use TextField to display a text input field
                 TextField(
                     //Set the value of the input field
@@ -150,20 +155,11 @@ fun HomeContent(
                         onInputValueChange(it)
                     }
                 )
-                //Here, we use Button to display a button
-                //the onClick parameter is used to set what happens when the button is clicked
-                Button(onClick = {
-                    //Here, we call the onButtonClick lambda function
-                    //This is so that we can add the inputField value to the listData
-                    //and reset the value of the inputField
+                //Here, we call the PrimaryTextButton UI Element
+                PrimaryTextButton(text = stringResource(
+                    id = R.string.button_click)
+                ) {
                     onButtonClick()
-                }) {
-                    //Set the text of the button
-                    Text(
-                        text = stringResource(
-                            id = R.string.button_click
-                        )
-                    )
                 }
             }
         }
@@ -177,7 +173,8 @@ fun HomeContent(
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = item.name)
+                //Here, we call the OnBackgroundItemText UI Element
+                OnBackgroundItemText(text = item.name)
             }
         }
     }

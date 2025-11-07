@@ -155,6 +155,7 @@ fun Home(
         inputField,
         { input -> inputField = inputField.copy(name = input) },
         {
+            // Logika ini masih perlu untuk memastikan data ditambahkan hanya jika tidak kosong
             if (inputField.name.isNotBlank()) {
                 listData.add(inputField)
                 inputField = Student("")
@@ -174,6 +175,9 @@ fun HomeContent(
     onButtonClick: () -> Unit,
     navigateFromHomeToResult: () -> Unit
 ) {
+    // Tentukan status tombol Submit: enabled jika input.name tidak kosong
+    val isSubmitButtonEnabled = inputField.name.isNotBlank()
+
     //Here, we use LazyColumn to display a list of items lazily
     LazyColumn {
         //Here, we use item to display an item inside the LazyColumn
@@ -207,14 +211,20 @@ fun HomeContent(
                 )
 
                 Row {
-                    PrimaryTextButton(text = stringResource(id =
-                        R.string.button_click)) {
-                        onButtonClick()
-                    }
-                    PrimaryTextButton(text = stringResource(id =
-                        R.string.button_navigate)) {
-                        navigateFromHomeToResult()
-                    }
+                    PrimaryTextButton(
+                        text = stringResource(id = R.string.button_click),
+                        // PERBAIKAN: Pindahkan lambda 'onClick' ke dalam tanda kurung
+                        onClick = { onButtonClick() },
+                        // Gunakan status tombol yang telah ditentukan
+                        enabled = isSubmitButtonEnabled
+                    )
+
+                    PrimaryTextButton(
+                        text = stringResource(id = R.string.button_navigate),
+                        // PERBAIKAN: Pindahkan lambda 'onClick' ke dalam tanda kurung
+                        onClick = { navigateFromHomeToResult() }
+                        // Argumen 'enabled' tidak perlu ditulis karena default = true
+                    )
                 }
             }
         }
